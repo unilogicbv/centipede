@@ -581,6 +581,7 @@ void certificateEnrollment() {
   CKeyboard.wait(40);
 }
 void setPrescaler() {
+#if defined(ARDUINO_ARCH_AVR)
   // Disable interrupts.
   uint8_t oldSREG = SREG;
   cli();
@@ -596,6 +597,7 @@ void setPrescaler() {
 
   // Recopy interrupt register.
   SREG = oldSREG;
+#endif // ARDUINO_ARCH_AVR
 }
 
 //TODO:
