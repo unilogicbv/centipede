@@ -10,6 +10,11 @@
 
 #include <Keyboard.h>
 
+#define LEAP     (1) // DO NOT CHANGE, USED FOR eapMethod
+#define PEAP     (2) // DO NOT CHANGE, USED FOR eapMethod
+#define EAP_TLS  (3) // DO NOT CHANGE, USED FOR eapMethod
+#define EAP_TTLS (4) // DO NOT CHANGE, USED FOR eapMethod
+
 /* Modify the following definations to fit your device version and whether you want Centipede to Powerwash the device on completion*/
 
 #define device_version 91 // Change to the ChromeOS version you expect to use with Centipede; Changes have been reported in the following ranges 58-68, 69, 70
@@ -37,7 +42,7 @@
 
 /* Use this area for advanced network setup options*/
 #define advancedNetworkSetup false //[true,false] Set to true for EAP configuration, and fill out the definitions below
-#define eapMethod "LEAP" // Valid options are "LEAP" "PEAP" "EAP-TLS" or "EAP-TTLS" - Note that they require the quotes to work properly
+#define eapMethod LEAP // Valid options are LEAP PEAP EAP_TLS or EAP_TTLS - Note that they require the quotes to work properly
 #define phaseTwoAuthentication 2 //[0,1,2,3,4,5,6] Set to 0 for automatic, 1 for EAP-MD5, 2 for MSCHAP(v2 pre v69; v1 V69+, 3 for MSCHAPv2, 4 for PAP, 5 for CHAP, 6 for GTC; v69+)
 #define serverCaCertificateCheck 0 //[0,1] 0 is default, 1 is "Do not check"
 #define subjectMatch "" // Fill in subject match here if needed for advanced wireless
@@ -384,7 +389,7 @@ void setupAdvancedNetworkConfig() {
     //@EAP Method
   }
 
-  if (eapMethod == "LEAP") {
+  if (eapMethod == LEAP) {
     // Default is LEAP v69+
     CKeyboard.writeRepeated(KEY_DOWN_ARROW, 1 - VERSION_69);
     CKeyboard.write(KEY_TAB);
@@ -398,7 +403,7 @@ void setupAdvancedNetworkConfig() {
     CKeyboard.write(KEY_ENTER); // Save Identity and Password (true);
     CKeyboard.writeRepeated(KEY_TAB, 2);
     CKeyboard.write(KEY_ENTER); // Connect;
-  } else if (eapMethod == "PEAP") {
+  } else if (eapMethod == PEAP) {
     // Select PEAP method
     CKeyboard.writeRepeated(KEY_DOWN_ARROW, 2 - VERSION_69);
     CKeyboard.write(KEY_TAB);
@@ -427,8 +432,8 @@ void setupAdvancedNetworkConfig() {
     CKeyboard.write(KEY_TAB);
     CKeyboard.write(KEY_ENTER); //Save ID and PW
     CKeyboard.writeRepeated(KEY_TAB, 1 + VERSION_69); //End on Connect  /v69+
-  } else if (eapMethod ==  "EAP-TLS") {
-    // Select EAP-TLS method
+  } else if (eapMethod ==  EAP_TLS) {
+    // Select EAP_TLS method
     CKeyboard.writeRepeated(KEY_DOWN_ARROW, 2);
     CKeyboard.write(KEY_TAB);
     //EAP Phase 2 authentication
@@ -451,7 +456,7 @@ void setupAdvancedNetworkConfig() {
     CKeyboard.print(identity);
     CKeyboard.writeRepeated(KEY_TAB, 3);
 
-  } else if (eapMethod == "EAP-TTLS") {
+  } else if (eapMethod == EAP_TTLS) {
     CKeyboard.writeRepeated(KEY_DOWN_ARROW, 4);
     CKeyboard.write(KEY_TAB);
 
@@ -475,7 +480,7 @@ void setupAdvancedNetworkConfig() {
     // Anonymous Identity
     CKeyboard.print(anonymousIdentity);
     CKeyboard.writeRepeated(KEY_TAB, 2);
-  } else if (eapMethod ==  "EAP-TLS") {
+  } else if (eapMethod ==  EAP_TLS) {
     // Select EAP-TLS method
     CKeyboard.writeRepeated(KEY_DOWN_ARROW, 3);
     CKeyboard.write(KEY_TAB);
